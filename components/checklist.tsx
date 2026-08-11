@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import type { ChecklistItem, ChecklistKind } from "@/lib/content";
 
 const kindLabels: Record<ChecklistKind, string> = {
@@ -8,6 +8,26 @@ const kindLabels: Record<ChecklistKind, string> = {
   preparation: "Preparación",
   verification: "Verificación",
 };
+
+const CHECKLIST_EVENT = "egreso-lcd:checklist-change";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(CHECKLIST_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(CHECKLIST_EVENT, callback);
+  };
+}
+
+function parseChecked(raw: string) {
+  if (!raw) return {} as Record<string, boolean>;
+  try {
+    return JSON.parse(raw) as Record<string, boolean>;
+  } catch {
+    return {} as Record<string, boolean>;
+  }
+}
 
 export function Checklist({
   title = "Checklist de esta etapa",
@@ -18,17 +38,13 @@ export function Checklist({
   items: ChecklistItem[];
   storageKey?: string;
 }) {
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    if (!storageKey) return;
-    try {
-      const raw = localStorage.getItem(`egreso-lcd:checklist:${storageKey}`);
-      if (raw) setChecked(JSON.parse(raw) as Record<string, boolean>);
-    } catch {
-      // A corrupted local checklist should never block access to the guide.
-    }
-  }, [storageKey]);
+  const key = storageKey ? `egreso-lcd:checklist:${storageKey}` : null;
+  const raw = useSyncExternalStore(
+    subscribe,
+    () => (key ? localStorage.getItem(key) ?? "" : ""),
+    () => "",
+  );
+  const checked = useMemo(() => parseChecked(raw), [raw]);
 
   const completed = useMemo(
     () => items.filter((item) => checked[item.id]).length,
@@ -36,20 +52,17 @@ export function Checklist({
   );
 
   function toggle(id: string) {
-    setChecked((current) => {
-      const next = { ...current, [id]: !current[id] };
-      if (storageKey) {
-        localStorage.setItem(
-          `egreso-lcd:checklist:${storageKey}`,
-          JSON.stringify(next),
-        );
-      }
-      return next;
-    });
+    if (!key) return;
+    const next = { ...checked, [id]: !checked[id] };
+    localStorage.setItem(key, JSON.stringify(next));
+    window.dispatchEvent(new Event(CHECKLIST_EVENT));
   }
 
   return (
-    <section className="checklist-panel" aria-labelledby={`${storageKey ?? "stage"}-checklist`}>
+    <section
+      className="checklist-panel"
+      aria-labelledby={`${storageKey ?? "stage"}-checklist`}
+    >
       <div className="checklist-heading">
         <div>
           <p className="eyebrow">Control personal</p>
