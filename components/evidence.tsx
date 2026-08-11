@@ -73,13 +73,50 @@ export function Evidence({
   );
 }
 
-export function EvidenceGroup({ claimIds }: { claimIds: string[] }) {
+function EvidenceRow({ claimId }: { claimId: string }) {
+  const claim = getClaim(claimId);
+  const isExpectation = claim.type === "community_expectation";
+
   return (
-    <div className="evidence-group">
-      {claimIds.map((claimId) => (
-        <Evidence key={claimId} claimId={claimId} compact />
-      ))}
-    </div>
+    <li className={claim.blocking ? "evidence-row blocking" : "evidence-row"}>
+      <div className="evidence-row-main">
+        <span className="evidence-label">{labels[claim.type] ?? claim.type}</span>
+        <p>{claim.claim}</p>
+        {isExpectation ? (
+          <small>Referencia para planificar; no es una garantía.</small>
+        ) : null}
+      </div>
+      <div className="evidence-row-source">
+        <small>{claim.sourceDetail.title}</small>
+        <SourceLink claimId={claimId} />
+      </div>
+    </li>
+  );
+}
+
+export function EvidenceGroup({ claimIds }: { claimIds: string[] }) {
+  if (!claimIds.length) return null;
+
+  return (
+    <details className="evidence-disclosure">
+      <summary>
+        <span>Fuentes y fundamentos</span>
+        <small>
+          {claimIds.length === 1
+            ? "1 referencia"
+            : `${claimIds.length} referencias`}
+        </small>
+      </summary>
+      <p className="evidence-disclosure-intro">
+        Abrimos la procedencia para que puedas distinguir qué es requisito, qué es
+        proceso publicado y qué es sólo una referencia práctica.
+      </p>
+      <ul className="evidence-row-list">
+        {claimIds.map((claimId) => (
+          <EvidenceRow key={claimId} claimId={claimId} />
+        ))}
+      </ul>
+    </details>
   );
 }
 
