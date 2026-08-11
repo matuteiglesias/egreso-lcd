@@ -1,4 +1,4 @@
-# Contract notes discovered during Task 02
+# Contract notes discovered during Tasks 02–03
 
 ## Safety adapter around diploma entry
 
@@ -24,3 +24,29 @@ forces explicit confirmation of existing gates before the "ready to file" result
 
 If the state contract is revised after v1, these two adapters should be incorporated into
 a versioned graph revision and removed from implementation code.
+
+## Task 03 — volatile navigation targets
+
+The frozen content/evidence registry v1.0 is also preserved byte-for-byte.
+
+Release verification found that the current official LCD Tutorías page links to a newer
+tutor request form and a newer PEI form than the URLs captured in the pre-development
+registry. The underlying claims did not change; only the outbound destinations changed.
+
+Rather than silently editing the frozen registry or hard-coding fresh URLs in UI code,
+v1 introduces:
+
+- `knowledge/egreso-lcd-navigation-targets-v1.1.yaml`
+
+This is an explicit, versioned release overlay for volatile navigation targets. The
+knowledge loader validates that the overlay declares the registry version it extends and
+covers every navigation target expected by the registry.
+
+Current release behavior is therefore:
+
+- claims and source authority: registry v1.0;
+- state machine: journey graph v1.0 plus the documented safety adapter above;
+- actionable outbound navigation: navigation-target overlay v1.1.
+
+A future registry revision may absorb these target changes if/when the content contract
+itself is versioned for other reasons.
