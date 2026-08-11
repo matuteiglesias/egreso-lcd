@@ -1,0 +1,28 @@
+artifact: Egreso LCD — Navigation Targets
+version: 1.1.0
+status: release_verified_overlay
+base_registry_version: 1.0.0
+verified_at: '2026-08-11'
+purpose: >-
+  Versioned overlay for volatile outbound navigation targets. Claims and authority remain
+  defined by the frozen content/evidence registry v1.0; this file may update links when
+  an official source changes the destination without changing the underlying claim.
+verification_notes:
+  tutor_form: >-
+    Revalidated from the current LCD Tutorías page; the form linked by the official page
+    changed from the pre-development registry target.
+  pei_form: >-
+    Revalidated from the current LCD Tutorías page; the form linked by the official page
+    changed from the pre-development registry target.
+  tad: Revalidated against the active TAD-UBA public entry point.
+  rc14: Revalidated from the current FCEN Diplomas y certificados page.
+  portal_pagos: Revalidated from the current FCEN diploma instructions.
+  siet: Revalidated against the active SIET public entry point.
+navigation_targets:
+  tutor_form: https://docs.google.com/forms/d/e/1FAIpQLSdcSNNBgjbFJBm9XjkyRzwP-aoYaPvWUtGxlyj_0RftUaQE8A/viewform
+  pei_form: https://forms.gle/mPnv87yitr7KNUrN9
+  tutorias_email: mailto:tutorias.lcd@exactas.uba.ar
+  tad: https://tramitesadistancia.uba.ar/tramitesadistancia/inicio-publico
+  rc14: https://exactas.uba.ar/wp-content/uploads/2025/08/solicitudTituloGrado-RC14.pdf
+  portal_pagos: https://portalpagos.uba.ar/
+  siet: https://sietgraduados.rec.uba.ar/
