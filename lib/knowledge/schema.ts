@@ -45,6 +45,17 @@ export const registrySchema = z.object({
   claims: z.array(claimSchema).min(1),
 });
 
+export const navigationOverlaySchema = z.object({
+  artifact: z.string().min(1),
+  version: z.string().min(1),
+  status: z.string().min(1),
+  base_registry_version: z.string().min(1),
+  verified_at: date,
+  purpose: z.string().min(1),
+  verification_notes: z.record(z.string(), z.string()).optional(),
+  navigation_targets: z.record(z.string(), z.string().min(1)),
+});
+
 const outputSchema = z.object({
   headline: z.string(),
   next_action: z.string(),
@@ -94,3 +105,4 @@ export type Registry = z.infer<typeof registrySchema>;
 export type Claim = z.infer<typeof claimSchema>;
 export type Source = z.infer<typeof sourceSchema>;
 export type Journey = z.infer<typeof journeySchema>;
+export type NavigationOverlay = z.infer<typeof navigationOverlaySchema>;
