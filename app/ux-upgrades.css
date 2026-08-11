@@ -1,0 +1,468 @@
+/* Task 02 product-depth pass.
+   Imported after globals.css so these rules refine, rather than replace, the baseline. */
+
+.home-hero {
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+.home-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.home-hero h1 {
+  max-width: 860px;
+  font-size: clamp(2.55rem, 5.8vw, 5.2rem);
+}
+
+.home-promise {
+  background: rgb(255 255 255 / 92%);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--green);
+  border-radius: 18px;
+  padding: 1.45rem;
+  box-shadow: 0 18px 45px #17324a0d;
+}
+
+.home-promise ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.home-promise li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid #e3e9e5;
+}
+
+.home-promise li:first-child {
+  border-top: 0;
+}
+
+.home-promise strong {
+  color: var(--blue);
+  font-size: 1.02rem;
+}
+
+.home-promise span {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.home-entry-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.home-entry-primary {
+  position: sticky;
+  top: 105px;
+  align-self: start;
+  padding: 1.75rem;
+  background: var(--green-soft);
+  border: 1px solid #c6ddb9;
+  border-radius: 18px;
+}
+
+.home-entry-primary h2,
+.home-entry-secondary h2 {
+  margin-bottom: 0.8rem;
+}
+
+.stage-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.stage-link-list li {
+  border-bottom: 1px solid var(--line);
+}
+
+.stage-link-list a {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(130px, 0.38fr) 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.95rem 0.25rem;
+  text-decoration: none;
+}
+
+.stage-link-list a:hover strong,
+.stage-link-list a:hover small {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.stage-link-list span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  background: var(--green-soft);
+  border: 1px solid #c6ddb9;
+  border-radius: 999px;
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.stage-link-list strong {
+  color: var(--blue);
+}
+
+.stage-link-list small {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.roadmap-section {
+  background: #f3f6f2;
+}
+
+.home-roadmap {
+  list-style: none;
+  margin: 2.2rem 0 0;
+  padding: 0;
+  max-width: 920px;
+}
+
+.home-roadmap li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding-bottom: 2.1rem;
+}
+
+.home-roadmap li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 1.45rem;
+  top: 2.9rem;
+  bottom: 0;
+  width: 2px;
+  background: #bdd7ae;
+}
+
+.roadmap-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  background: var(--blue);
+  color: white;
+  font-weight: 850;
+  box-shadow: 0 0 0 7px #f3f6f2;
+}
+
+.roadmap-copy {
+  padding: 0.15rem 0 0.25rem;
+}
+
+.roadmap-copy h3 {
+  margin: 0.1rem 0 0.45rem;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+.roadmap-copy > p:not(.roadmap-label):not(.roadmap-outcome) {
+  max-width: 760px;
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+}
+
+.roadmap-label {
+  margin: 0;
+  color: var(--orange-dark);
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.roadmap-outcome {
+  max-width: 760px;
+  margin: 0.8rem 0;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--green);
+}
+
+.home-gates-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.gate-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.gate-list li {
+  display: grid;
+  grid-template-columns: 2.3rem minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.gate-list > li > span {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 7px;
+  background: var(--blue);
+  color: white;
+  font-weight: 850;
+}
+
+.gate-list strong {
+  color: var(--blue);
+  font-size: 1.02rem;
+}
+
+.gate-list p {
+  margin: 0.15rem 0 0.25rem;
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.gate-list a {
+  color: var(--blue);
+  font-weight: 750;
+}
+
+.problems-section {
+  background: #f8faf8;
+}
+
+.problem-link-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.problem-link {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 92px;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.problem-link:nth-child(odd) {
+  border-right: 1px solid var(--line);
+}
+
+.problem-link:hover {
+  background: white;
+}
+
+.problem-link.urgent {
+  box-shadow: inset 5px 0 0 var(--orange);
+  background: var(--orange-soft);
+}
+
+.problem-link > span {
+  display: grid;
+  align-content: center;
+  gap: 0.18rem;
+}
+
+.problem-link strong {
+  color: var(--blue);
+}
+
+.problem-link small {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.problem-link b {
+  align-self: center;
+  color: var(--blue);
+  font-size: 1.2rem;
+}
+
+/* Evidence should support the guide, not fragment it into a wall of cards. */
+.evidence-disclosure {
+  margin-top: 1.3rem;
+  border: 1px solid #cbd9df;
+  border-radius: 12px;
+  background: #fbfdfd;
+}
+
+.evidence-disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  color: var(--blue);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.evidence-disclosure > summary small {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.evidence-disclosure[open] > summary {
+  border-bottom: 1px solid #dce5e8;
+}
+
+.evidence-disclosure-intro {
+  max-width: 760px;
+  margin: 1rem 1rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.evidence-row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.45rem 1rem 1rem;
+}
+
+.evidence-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.34fr);
+  gap: 1.25rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid #e2e8ea;
+}
+
+.evidence-row:first-child {
+  border-top: 0;
+}
+
+.evidence-row.blocking {
+  box-shadow: inset 3px 0 0 var(--orange);
+  padding-left: 0.8rem;
+}
+
+.evidence-row-main p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.evidence-row-main small,
+.evidence-row-source small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.evidence-row-source {
+  align-self: center;
+}
+
+.evidence-row-source .source {
+  display: inline-block;
+  margin-top: 0.2rem;
+  font-size: 0.86rem;
+}
+
+/* Give the real guidance copy more reading presence. */
+.guide-section > p {
+  font-size: 1.03rem;
+  line-height: 1.68;
+}
+
+.guide-section h2 {
+  margin-bottom: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .home-hero-grid,
+  .home-entry-grid,
+  .home-gates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-entry-primary {
+    position: static;
+  }
+
+  .content-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-sidebar {
+    position: static;
+    order: -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-hero {
+    padding-block: 3.5rem 3rem;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(2.3rem, 12vw, 3.55rem);
+  }
+
+  .stage-link-list a {
+    grid-template-columns: 2rem 1fr;
+  }
+
+  .stage-link-list small {
+    grid-column: 2;
+  }
+
+  .home-roadmap li {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  .roadmap-marker {
+    width: 2.5rem;
+    height: 2.5rem;
+    box-shadow: 0 0 0 5px #f3f6f2;
+  }
+
+  .home-roadmap li:not(:last-child)::before {
+    left: 1.2rem;
+    top: 2.5rem;
+  }
+
+  .problem-link-list {
+    grid-template-columns: 1fr;
+  }
+
+  .problem-link:nth-child(odd) {
+    border-right: 0;
+  }
+
+  .evidence-row {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .evidence-disclosure > summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}
