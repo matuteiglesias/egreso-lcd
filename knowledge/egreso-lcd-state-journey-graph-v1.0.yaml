@@ -1,0 +1,501 @@
+artifact: Egreso LCD — State/Journey Graph
+version: 1.0.0
+status: frozen_predevelopment_baseline
+frozen_at: '2026-08-11'
+objective: Determinar con pocas preguntas en qué etapa está la persona, bloquear avances inseguros y devolver el próximo paso
+  accionable con checklist y fuentes.
+resolver_principles:
+- Primero clasificar la etapa amplia; después hacer sólo las preguntas necesarias para determinar el estado específico.
+- El resolver es determinista y basado en reglas. No usar un LLM para decidir el estado administrativo.
+- Ante información desconocida o ambigua, pedir verificar; nunca asumir una precondición aprobada.
+- No habilitar el inicio del diploma si faltan materias/tesis, SIU, resoluciones necesarias o legalización del secundario.
+- Los tiempos mostrados son expectativas, no garantías.
+- El estado puede persistirse localmente sin cuenta de usuario en v1.
+top_level_triage:
+- id: A
+  label: Todavía estoy cursando optativas / armando tutor o PEI
+  entry_state: S10_TUTOR_CHECK
+- id: B
+  label: Estoy preparando o haciendo la tesis
+  entry_state: S20_THESIS_CHECK
+- id: C
+  label: Ya aprobé materias y tesis
+  entry_state: S30_ACADEMIC_CLOSE_CHECK
+- id: D
+  label: Estoy con inclusiones, puntajes o equivalencias
+  entry_state: S40_REGULARIZATION_CHECK
+- id: E
+  label: Estoy por iniciar o ya inicié el trámite de diploma
+  entry_state: S50_DIPLOMA_CHECK
+- id: F
+  label: Mi trámite ya aparece en SIET / está en UBA
+  entry_state: S60_SIET_CHECK
+- id: G
+  label: Mi diploma ya está terminado / quiero recibirlo
+  entry_state: S70_DELIVERY_CHECK
+global_gates:
+  GATE_TUTOR_TO_PEI:
+  - TUT-04
+  - PEI-02
+  - PEI-03
+  GATE_THESIS_START:
+  - THS-02
+  - THS-03
+  - THS-04
+  GATE_DIPLOMA_ACADEMIC:
+  - DIP-01
+  GATE_DIPLOMA_REGULARIZATION:
+  - INC-04
+  - DIP-02
+  GATE_DIPLOMA_DOCUMENTS:
+  - DIP-03
+  - DIP-04
+  - DIP-05
+  - DIP-06
+  - DIP-07
+  - DIP-08
+  GATE_JURA:
+  - JUR-01
+states:
+  S10_TUTOR_CHECK:
+    stage: tutor
+    question: ¿Tu tutor/a ya fue aprobado/a por la Comisión de Carrera?
+    transitions:
+      'yes': S12_PEI_CHECK
+      'no': S11_TUTOR_STATUS
+      unknown: S11_TUTOR_STATUS
+  S11_TUTOR_STATUS:
+    stage: tutor
+    question: ¿Ya enviaste y validaste la solicitud de tutor/a?
+    transitions:
+      'no': S11A_TUTOR_TO_DO
+      'yes': S11B_TUTOR_PENDING
+    outputs:
+      S11A_TUTOR_TO_DO:
+        headline: Elegir y solicitar tutor/a
+        next_action: Completar el circuito de solicitud y validación.
+        claims:
+        - TUT-01
+        - TUT-02
+        - TUT-03
+        - TUT-04
+        - TUT-05
+      S11B_TUTOR_PENDING:
+        headline: Tutor/a pendiente de aprobación
+        next_action: Esperar la aprobación antes de elevar el PEI.
+        claims:
+        - TUT-04
+        - TUT-05
+        - PEI-02
+        - PEI-03
+  S12_PEI_CHECK:
+    stage: pei
+    question: ¿Tu PEI ya fue aprobado por la Comisión?
+    transitions:
+      'yes': S14_THIRD_CYCLE_ACTIVE
+      'no': S13_PEI_STATUS
+      unknown: S13_PEI_STATUS
+  S13_PEI_STATUS:
+    stage: pei
+    question: ¿Ya presentaste el PEI con aval de tu tutor/a?
+    transitions:
+      'no': S13A_PEI_TO_DO
+      'yes': S13B_PEI_PENDING
+    outputs:
+      S13A_PEI_TO_DO:
+        headline: Preparar y presentar PEI
+        next_action: Acordar el plan con tu tutor/a y elevarlo.
+        claims:
+        - PEI-01
+        - PEI-02
+        - PEI-05
+        - PEI-06
+      S13B_PEI_PENDING:
+        headline: PEI pendiente de aprobación
+        next_action: Esperar resolución de Comisión; no asumir aprobación hasta recibir confirmación.
+        claims:
+        - PEI-03
+        - PEI-04
+  S14_THIRD_CYCLE_ACTIVE:
+    stage: pei
+    terminal_for_triage: true
+    headline: Tercer ciclo en curso
+    next_action: Continuar optativas y planificar la tesis con suficiente anticipación.
+    claims:
+    - PEI-05
+    - PEI-06
+    - THS-05
+  S20_THESIS_CHECK:
+    stage: tesis
+    question: ¿Ya estás inscripto/a y cursando Tesis de Licenciatura?
+    transitions:
+      'no': S21_THESIS_PREP
+      'yes': S22_THESIS_PROGRESS
+  S21_THESIS_PREP:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Preparar el inicio de tesis
+    next_action: Verificar finales del segundo ciclo, tema, director/a y plan de trabajo.
+    claims:
+    - THS-02
+    - THS-03
+    - THS-04
+    - THS-05
+    - THS-06
+    - THS-15
+  S22_THESIS_PROGRESS:
+    stage: tesis
+    question: ¿Ya entregaste el manuscrito final al circuito de evaluación?
+    transitions:
+      'no': S22A_THESIS_COURSE
+      'yes': S23_JURY_STATUS
+  S22A_THESIS_COURSE:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Tesis en desarrollo
+    next_action: Seguir los hitos de cursada hasta entregar el manuscrito.
+    claims:
+    - THS-07
+    - THS-08
+    - THS-09
+    - THS-10
+  S23_JURY_STATUS:
+    stage: tesis
+    question: ¿Qué devolución recibiste del jurado?
+    transitions:
+      waiting: S23A_JURY_REVIEW
+      corrections: S24_CORRECTIONS
+      defense_ready: S25_DEFENSE_READY
+      no_defense: S24B_RESTART_REQUIRED
+  S23A_JURY_REVIEW:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Tesis en evaluación
+    next_action: Esperar la evaluación del jurado.
+    claims:
+    - THS-11
+    - THS-13
+  S24_CORRECTIONS:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Correcciones antes de defensa
+    next_action: Incorporar las correcciones solicitadas y preparar la versión definitiva.
+    claims:
+    - THS-11
+    - THS-12
+  S24B_RESTART_REQUIRED:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Tesis no habilitada para defensa
+    next_action: Revisar con la materia el reinicio de la cursada según el reglamento.
+    claims:
+    - THS-11
+  S25_DEFENSE_READY:
+    stage: tesis
+    question: ¿Ya defendiste la tesis?
+    transitions:
+      'no': S25A_DEFENSE_PENDING
+      'yes': S26_SIU_THESIS_CHECK
+  S25A_DEFENSE_PENDING:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Defensa pendiente
+    next_action: Coordinar/realizar la defensa.
+    claims:
+    - THS-12
+    - THS-13
+    - THS-14
+  S26_SIU_THESIS_CHECK:
+    stage: tesis
+    question: ¿La nota de tesis ya figura correctamente en SIU?
+    transitions:
+      'yes': S30_ACADEMIC_CLOSE_CHECK
+      'no': S26A_WAIT_SIU
+  S26A_WAIT_SIU:
+    stage: tesis
+    terminal_for_triage: true
+    headline: Defensa aprobada; falta cierre en SIU
+    next_action: No avanzar al cierre administrativo hasta verificar la carga de la nota.
+    claims:
+    - DIP-01
+  S30_ACADEMIC_CLOSE_CHECK:
+    stage: cierre_academico
+    question: ¿Todas las materias y la tesis figuran correctamente aprobadas en SIU?
+    transitions:
+      'yes': S32_REGULARIZATION_NEEDED
+      'no': S31_SIU_ISSUE
+  S31_SIU_ISSUE:
+    stage: cierre_academico
+    terminal_for_triage: true
+    headline: Cierre académico incompleto en SIU
+    next_action: Resolver notas/cargas faltantes antes de iniciar el diploma.
+    claims:
+    - DIP-01
+  S32_REGULARIZATION_NEEDED:
+    stage: cierre_academico
+    question: ¿Tenés equivalencias, puntajes, inclusiones u otros trámites del plan todavía sin resolución numerada?
+    transitions:
+      'yes': S40_REGULARIZATION_CHECK
+      'no': S50_DIPLOMA_CHECK
+  S40_REGULARIZATION_CHECK:
+    stage: regularizacion
+    question: ¿El trámite ya está iniciado?
+    transitions:
+      'yes': S44_REGULARIZATION_PENDING
+      'no': S41_ORIGIN_BRANCH
+  S41_ORIGIN_BRANCH:
+    stage: regularizacion
+    question: ¿De dónde provienen las materias que necesitás regularizar?
+    transitions:
+      fcen: S41A_FCEN_INCLUSION
+      outside_uba: S42_EXTERNAL
+      mobility: S43_MOBILITY
+      other: S42_EXTERNAL
+  S41A_FCEN_INCLUSION:
+    stage: regularizacion
+    terminal_for_triage: true
+    headline: Preparar inclusión/puntaje de materias FCEN
+    next_action: Iniciar por TAD → Mesa de Entrada con materias, carreras y programas.
+    claims:
+    - INC-01
+    - INC-02
+    - INC-03
+    - INC-05
+  S42_EXTERNAL:
+    stage: regularizacion
+    terminal_for_triage: true
+    headline: Regularización de materias externas
+    next_action: Seguir el branch oficial correspondiente de equivalencias/regularización externa en FCEN.
+    claims:
+    - INC-04
+    - INC-05
+  S43_MOBILITY:
+    stage: regularizacion
+    terminal_for_triage: true
+    headline: Regularización por movilidad/intercambio
+    next_action: Seguir el circuito oficial de Relaciones Institucionales antes del diploma.
+    claims:
+    - INC-04
+  S44_REGULARIZATION_PENDING:
+    stage: regularizacion
+    question: ¿Ya tenés la resolución numerada que concluye el trámite?
+    transitions:
+      'yes': S45_RESOLUTION_READY
+      'no': S44A_WAIT_RESOLUTION
+  S44A_WAIT_RESOLUTION:
+    stage: regularizacion
+    terminal_for_triage: true
+    headline: Regularización en trámite
+    next_action: Esperar la resolución numerada antes de iniciar el diploma.
+    claims:
+    - INC-04
+    - INC-05
+    - DIP-02
+  S45_RESOLUTION_READY:
+    stage: regularizacion
+    automatic_transition: S50_DIPLOMA_CHECK
+    headline: Regularización concluida
+    claims:
+    - INC-04
+  S50_DIPLOMA_CHECK:
+    stage: diploma
+    question: ¿Ya iniciaste la Solicitud de Expedición de Diploma por TAD?
+    transitions:
+      'yes': S54_TAD_STATUS
+      'no': S51_SECONDARY_CHECK
+  S51_SECONDARY_CHECK:
+    stage: diploma
+    question: ¿Tenés el título secundario ya legalizado por UBA?
+    transitions:
+      'yes': S52_DOCS_CHECK
+      'no': S51A_LEGALIZATION_BLOCK
+      unknown: S51A_LEGALIZATION_BLOCK
+  S51A_LEGALIZATION_BLOCK:
+    stage: diploma
+    terminal_for_triage: true
+    headline: Falta legalización del título secundario
+    next_action: Completar/verificar la legalización antes de iniciar el diploma.
+    claims:
+    - DIP-05
+  S52_DOCS_CHECK:
+    stage: diploma
+    question: ¿Tenés preparados DNI, RC14, comprobante del Portal de Pagos y PDFs en condiciones?
+    transitions:
+      'yes': S53_READY_TO_FILE
+      'no': S52A_PREP_DOCS
+  S52A_PREP_DOCS:
+    stage: diploma
+    terminal_for_triage: true
+    headline: Preparar documentación de diploma
+    next_action: Completar el checklist documental antes de confirmar el trámite.
+    claims:
+    - DIP-03
+    - DIP-04
+    - DIP-06
+    - DIP-07
+    - DIP-08
+  S53_READY_TO_FILE:
+    stage: diploma
+    terminal_for_triage: true
+    headline: Listo/a para iniciar el diploma
+    next_action: Iniciar una única Solicitud de Expedición de Diploma por TAD.
+    claims:
+    - DIP-01
+    - DIP-02
+    - DIP-09
+    - DIP-10
+  S54_TAD_STATUS:
+    stage: seguimiento
+    question: ¿Qué estado ves actualmente en TAD?
+    transitions:
+      tramitacion: S57_TRAMITACION
+      subsanacion: S55_SUBSANACION
+      guarda_temporal: S56_REJECTED
+      unknown: S54A_CHECK_TAD
+  S54A_CHECK_TAD:
+    stage: seguimiento
+    terminal_for_triage: true
+    headline: Revisar estado e informes en TAD
+    next_action: Abrir el expediente, descargar informes y determinar el estado actual.
+    claims:
+    - TRK-01
+  S55_SUBSANACION:
+    stage: seguimiento
+    terminal_for_triage: true
+    headline: 'Acción urgente: subsanar documentación'
+    next_action: Revisar 'Expedientes → Mis tareas' y corregir cuanto antes.
+    claims:
+    - TRK-03
+    - TRK-04
+  S56_REJECTED:
+    stage: seguimiento
+    terminal_for_triage: true
+    headline: Trámite rechazado / Guarda Temporal
+    next_action: Leer el informe, corregir la causa y reiniciar el trámite.
+    claims:
+    - TRK-05
+    - DIP-09
+  S57_TRAMITACION:
+    stage: seguimiento
+    terminal_for_triage: true
+    headline: Diploma en tramitación
+    next_action: Seguir TAD y, cuando la Facultad lo ingrese en SIET, continuar el seguimiento allí.
+    claims:
+    - TRK-01
+    - TRK-02
+    - DIP-10
+  S60_SIET_CHECK:
+    stage: siet
+    question: ¿Tu trámite ya aparece en SIET o tenés CUIG?
+    transitions:
+      'yes': S61_SIET_CONFIRM
+      'no': S60A_WAIT_SIET
+  S60A_WAIT_SIET:
+    stage: siet
+    terminal_for_triage: true
+    headline: Todavía sin ingreso visible en SIET
+    next_action: Continuar el seguimiento por TAD y volver a consultar SIET más adelante.
+    claims:
+    - TRK-01
+    - TRK-06
+  S61_SIET_CONFIRM:
+    stage: siet
+    question: ¿Ya completaste las confirmaciones/acciones requeridas en SIET?
+    transitions:
+      'yes': S62_TITLE_IN_PROCESS
+      'no': S61A_COMPLETE_SIET
+  S61A_COMPLETE_SIET:
+    stage: siet
+    terminal_for_triage: true
+    headline: Completar acciones de SIET
+    next_action: Ingresar a SIET y completar las confirmaciones requeridas.
+    claims:
+    - TRK-06
+    - POST-02
+  S62_TITLE_IN_PROCESS:
+    stage: siet
+    terminal_for_triage: true
+    headline: Título en trámite en UBA
+    next_action: Seguir SIET; si necesitás acreditar el estado y cumplís condiciones, evaluar certificado de título en trámite.
+    claims:
+    - POST-01
+    - POST-02
+    - DIP-10
+  S70_DELIVERY_CHECK:
+    stage: jura
+    question: ¿Tu diploma figura en la lista de diplomas en condiciones de ser entregados?
+    transitions:
+      'yes': S71_JURA_READY
+      'no': S70A_WAIT_DELIVERY
+  S70A_WAIT_DELIVERY:
+    stage: jura
+    terminal_for_triage: true
+    headline: Diploma terminado pero aún no habilitado para entrega
+    next_action: Revisar periódicamente la lista oficial de diplomas en condiciones de ser entregados.
+    claims:
+    - JUR-01
+  S71_JURA_READY:
+    stage: jura
+    terminal_for_triage: true
+    headline: Listo/a para recibir el diploma
+    next_action: Consultar modalidades y fechas vigentes de jura e inscribirse.
+    claims:
+    - JUR-01
+    - JUR-02
+  S80_GRADUATE:
+    stage: post_egreso
+    terminal_for_triage: true
+    headline: Egreso administrativo completo
+    next_action: Acceder a certificados y recursos para graduados/as según necesidad.
+    claims:
+    - POST-03
+special_transitions:
+- from: S71_JURA_READY
+  event: diploma_delivered
+  to: S80_GRADUATE
+- from: S62_TITLE_IN_PROCESS
+  event: diploma_finished
+  to: S70_DELIVERY_CHECK
+- from: S57_TRAMITACION
+  event: appears_in_siet
+  to: S60_SIET_CHECK
+- from: S31_SIU_ISSUE
+  event: siu_corrected
+  to: S32_REGULARIZATION_NEEDED
+- from: S44A_WAIT_RESOLUTION
+  event: numbered_resolution_received
+  to: S45_RESOLUTION_READY
+- from: S26A_WAIT_SIU
+  event: thesis_grade_in_siu
+  to: S30_ACADEMIC_CLOSE_CHECK
+resolver_output_contract:
+  required_fields:
+  - state_id
+  - stage
+  - headline
+  - next_action
+  - completed_prerequisites
+  - blocking_issues
+  - claim_ids
+  - official_links
+  - time_expectation
+  rules:
+  - time_expectation may be null
+  - blocking_issues must be explicit
+  - official_links derive from the registry, not hardcoded in UI copy
+  - future AI chat may receive this state as context but may not mutate it without deterministic answers
+mermaid: "flowchart TD\n    A[¿En qué etapa estás?]\n    A --> T[Tutor / PEI]\n    A --> H[Tesis]\n    A --> C[Cierre académico]\n\
+  \    A --> R[Regularización del plan]\n    A --> D[Diploma]\n    A --> S[SIET / UBA]\n    A --> J[Entrega / Jura]\n\n  \
+  \  T --> T1{Tutor aprobado?}\n    T1 -- No --> T2[Solicitar / esperar tutor]\n    T1 -- Sí --> P1{PEI aprobado?}\n    P1\
+  \ -- No --> P2[Presentar / esperar PEI]\n    P1 -- Sí --> P3[Tercer ciclo en curso]\n\n    H --> H1{Cursando tesis?}\n \
+  \   H1 -- No --> H2[Preparar tema + director + plan]\n    H1 -- Sí --> H3[Hitos de cursada]\n    H3 --> H4[Manuscrito]\n\
+  \    H4 --> H5[Jurado]\n    H5 --> H6[Correcciones / defensa]\n    H6 --> H7{Nota en SIU?}\n    H7 -- No --> H8[Esperar/corregir\
+  \ SIU]\n    H7 -- Sí --> C\n\n    C --> C1{Todo aprobado y en SIU?}\n    C1 -- No --> C2[Resolver SIU]\n    C1 -- Sí -->\
+  \ C3{Trámites del plan resueltos?}\n    C3 -- No --> R\n    C3 -- Sí --> D\n\n    R --> R1[Inclusión / equivalencia / puntaje]\n\
+  \    R1 --> R2{Resolución numerada?}\n    R2 -- No --> R3[Esperar resolución]\n    R2 -- Sí --> D\n\n    D --> D1{Diploma\
+  \ ya iniciado?}\n    D1 -- No --> D2{Secundario legalizado?}\n    D2 -- No --> D3[Legalizar]\n    D2 -- Sí --> D4[Checklist\
+  \ documentos]\n    D4 --> D5[Iniciar TAD]\n    D1 -- Sí --> D6{Estado TAD}\n    D6 -- SUBSANACIÓN --> D7[Corregir urgente]\n\
+  \    D6 -- GUARDA TEMPORAL --> D8[Revisar y reiniciar]\n    D6 -- TRAMITACIÓN --> D9[Seguir TAD]\n    D9 --> S\n\n    S\
+  \ --> S1{Aparece en SIET?}\n    S1 -- No --> S2[Seguir TAD]\n    S1 -- Sí --> S3[Confirmar datos / acciones]\n    S3 -->\
+  \ S4[Título en trámite]\n    S4 --> J\n\n    J --> J1{En lista para entrega?}\n    J1 -- No --> J2[Esperar lista]\n    J1\
+  \ -- Sí --> J3[Inscribirse a jura]\n    J3 --> G[Graduadx]\n"

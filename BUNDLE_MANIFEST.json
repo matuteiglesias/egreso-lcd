@@ -1,0 +1,31 @@
+{
+  "bundle": "egreso-lcd-dev-bundle",
+  "version": "1.0.0",
+  "generated_at": "2026-08-11",
+  "expected_repo_root": "~/repos/egreso-lcd/",
+  "knowledge_dir": "knowledge/",
+  "v1_tasks": [
+    "tasks/01-bootstrap-foundation.md",
+    "tasks/02-product-content-resolver.md",
+    "tasks/03-hardening-release.md"
+  ],
+  "deferred_phase": "tasks/90-ai-phase-2.md",
+  "files": [
+    "AGENTS.md",
+    "README.md",
+    "docs/ACCEPTANCE_TESTS.md",
+    "docs/AI_PHASE_2.md",
+    "docs/CONTENT_AUTHORING.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT_RUNBOOK.md",
+    "docs/PRODUCT_SPEC.md",
+    "docs/TECHNICAL_ARCHITECTURE.md",
+    "docs/UX_INFORMATION_ARCHITECTURE.md",
+    "knowledge/egreso-lcd-content-evidence-registry-v1.0.yaml",
+    "knowledge/egreso-lcd-state-journey-graph-v1.0.yaml",
+    "tasks/01-bootstrap-foundation.md",
+    "tasks/02-product-content-resolver.md",
+    "tasks/03-hardening-release.md",
+    "tasks/90-ai-phase-2.md"
+  ]
+}

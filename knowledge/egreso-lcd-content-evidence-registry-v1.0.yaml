@@ -1,0 +1,587 @@
+artifact: Egreso LCD — Content/Evidence Registry
+version: 1.0.0
+status: frozen_predevelopment_baseline
+frozen_at: '2026-08-11'
+purpose: Fuente editorial y de reglas para páginas, checklists, resolver de estado y futura capa de retrieval/IA.
+policy:
+  source_priority:
+  - official_regulation
+  - official_page_or_system
+  - curated_portal_content
+  - community_experience
+  timing_policy: Los tiempos son orientativos salvo que una norma explicite un plazo. Ante rangos/experiencias, comunicar
+    expectativas conservadoras y nunca garantías.
+  freshness_policy: Las fechas de eventos, formularios, cupos y estados operativos son volátiles y deben revalidarse antes
+    de publicarse.
+  ai_future_policy: El futuro asistente debe distinguir requisitos oficiales, procesos oficiales, recomendaciones y experiencia
+    comunitaria; no promover una recomendación a requisito.
+claim_types:
+  official_requirement: Requisito o condición oficial.
+  official_process: Paso, estado o procedimiento publicado oficialmente.
+  official_timing: Tiempo/plazo publicado por fuente oficial.
+  recommendation_official: Recomendación explícita de una fuente oficial/reglamentaria.
+  community_expectation: Expectativa práctica curada; no constituye plazo oficial.
+sources:
+  LCD_TUTORIAS:
+    title: Tutorías – Licenciatura en Datos – Exactas UBA
+    authority: LCD/FCEN
+    kind: official_page
+    url: https://lcd.exactas.uba.ar/tutorias/
+    verified_at: '2026-08-11'
+  LCD_PLAN:
+    title: Texto ordenado del Plan de Estudios de la Licenciatura en Ciencias de Datos
+    authority: FCEN/UBA
+    kind: official_regulation
+    url: https://lcd.exactas.uba.ar/wp-content/uploads/2022/11/Plan-de-Estudios-Lic.-en-Cs.-Datos.pdf
+    verified_at: '2026-08-11'
+  THESIS_REG_UPLOAD:
+    title: Reglamento de tesis de licenciatura en ciencias de datos
+    authority: LCD/FCEN
+    kind: official_regulation_user_copy
+    local_reference: Reglamento-Tesis-de-Licenciatura-LCD.pdf
+    verified_at: '2026-08-11'
+  LCD_THESIS:
+    title: Tesis de Licenciatura – Licenciatura en Datos – Exactas UBA
+    authority: LCD/FCEN
+    kind: official_page
+    url: https://lcd.exactas.uba.ar/tesis-de-licenciatura/
+    verified_at: '2026-08-11'
+    note: Use for evergreen process information only; dated event notices may be stale.
+  FCEN_ADMIN:
+    title: Trámites administrativos – FCEN UBA
+    authority: FCEN/UBA
+    kind: official_page
+    url: https://exactas.uba.ar/tramites-administrativos/
+    verified_at: '2026-08-11'
+  FCEN_DIPLOMAS:
+    title: Diplomas y certificados – FCEN UBA
+    authority: FCEN/UBA
+    kind: official_page
+    url: https://exactas.uba.ar/diplomas-y-certificados/
+    verified_at: '2026-08-11'
+  RC14:
+    title: Solicitud de Diploma Universitario de Grado / RC14
+    authority: FCEN/UBA
+    kind: official_form
+    url: https://exactas.uba.ar/wp-content/uploads/2025/08/solicitudTituloGrado-RC14.pdf
+    verified_at: '2026-08-11'
+  UBA_DIPLOMAS:
+    title: Dirección General de Títulos y Planes – Diplomas
+    authority: UBA
+    kind: official_page
+    url: https://academica.rec.uba.ar/diplomas/
+    verified_at: '2026-08-11'
+  SIET:
+    title: Sistema Integrado de Expedición de Títulos
+    authority: UBA
+    kind: official_system
+    url: https://sietgraduados.rec.uba.ar/
+    verified_at: '2026-08-11'
+  FCEN_JURAS:
+    title: Juras – FCEN UBA
+    authority: FCEN/UBA
+    kind: official_page
+    url: https://exactas.uba.ar/juras/
+    verified_at: '2026-08-11'
+    note: Dates and capacities are volatile; surface only after live verification.
+  COLLEAGUE_GUIDE:
+    title: Guía operativa de egreso aportada por colega
+    authority: community
+    kind: curated_experience
+    verified_at: '2026-08-11'
+    note: Operational experience and expected times; not an official source.
+navigation_targets:
+  tutor_form: https://docs.google.com/forms/d/1TeN4xWooWjs8E9zpE_2Ek9OP_72wvCMrVm1aDQoBFbI
+  pei_form: https://docs.google.com/forms/d/e/1FAIpQLSdKNzJkjVbTkGA76Gg7wqAoriOuyjsCu-aMkZkANoNyr2SjgA/viewform
+  tutorias_email: mailto:tutorias.lcd@exactas.uba.ar
+  tad: https://tramitesadistancia.uba.ar/tramitesadistancia/inicio-publico
+  rc14: https://exactas.uba.ar/wp-content/uploads/2025/08/solicitudTituloGrado-RC14.pdf
+  portal_pagos: https://portalpagos.uba.ar/
+  siet: https://sietgraduados.rec.uba.ar/
+claims:
+- id: TUT-01
+  claim: Conviene elegir tutor/a al promediar el tercer año y antes de cursar optativas.
+  type: official_process
+  stage: tutor
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: guidance
+  blocking: false
+- id: TUT-02
+  claim: Cualquier profesor/a de FCEN puede ser tutor/a.
+  type: official_requirement
+  stage: tutor
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: eligibility
+  blocking: false
+- id: TUT-03
+  claim: La solicitud de tutor/a se completa por formulario y se valida mediante reenvío del correo por el/la tutor/a a tutorias.lcd@exactas.uba.ar.
+  type: official_process
+  stage: tutor
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: action
+  blocking: false
+- id: TUT-04
+  claim: La tutoría debe ser aprobada por la Comisión de Carrera.
+  type: official_requirement
+  stage: tutor
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: TUT-05
+  claim: El tiempo publicado para la aprobación de tutor/a es de aproximadamente 1–2 meses.
+  type: official_timing
+  stage: tutor
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: timing
+  blocking: false
+- id: PEI-01
+  claim: El PEI se elabora en conjunto con el/la tutor/a.
+  type: official_requirement
+  stage: pei
+  source: LCD_PLAN
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: process
+  blocking: false
+- id: PEI-02
+  claim: Sólo se consideran PEI avalados por tutores/as previamente aprobados/as.
+  type: official_requirement
+  stage: pei
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: PEI-03
+  claim: Tutor/a y PEI no se aprueban en la misma reunión de Comisión.
+  type: official_process
+  stage: pei
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: sequencing
+  blocking: true
+- id: PEI-04
+  claim: El tiempo publicado para la aprobación del PEI es de aproximadamente 2–3 meses.
+  type: official_timing
+  stage: pei
+  source: LCD_TUTORIAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: timing
+  blocking: false
+- id: PEI-05
+  claim: El tercer ciclo requiere como mínimo 640 horas de materias electivas y/u optativas.
+  type: official_requirement
+  stage: pei
+  source: LCD_PLAN
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: PEI-06
+  claim: 'La elección de materias del PEI no está limitada al listado sugerido: pueden proponerse otras materias con aval
+    del/la tutor/a y aprobación de la Comisión.'
+  type: official_requirement
+  stage: pei
+  source: LCD_PLAN
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: eligibility
+  blocking: false
+- id: THS-01
+  claim: La Tesis de Licenciatura o Trabajo Final equivale a 320 horas reloj.
+  type: official_requirement
+  stage: tesis
+  source: LCD_PLAN
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: info
+  blocking: false
+- id: THS-02
+  claim: Para comenzar formalmente la Tesis de Licenciatura se deben tener aprobados con final los cursos del segundo ciclo
+    de grado.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: THS-03
+  claim: Para comenzar la tesis se debe contar con un/a director/a y un tema de tesis.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: THS-04
+  claim: Para comenzar la tesis se debe presentar un plan de trabajo realizable durante un cuatrimestre.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: THS-05
+  claim: Se recomienda asistir al Encuentro de Iniciación de Tesis durante el cuatrimestre previo a cursar la materia.
+  type: recommendation_official
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: recommendation
+  blocking: false
+- id: THS-06
+  claim: La asistencia al Encuentro de Iniciación de Tesis no es requisito para inscribirse en la materia.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: exception
+  blocking: false
+- id: THS-07
+  claim: Durante el cuatrimestre de tesis se espera una dedicación de aproximadamente 20 horas semanales.
+  type: official_process
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: workload
+  blocking: false
+- id: THS-08
+  claim: 'La cursada de Tesis contempla un mínimo de cuatro hitos/encuentros: inicio y plan escrito, presentación del plan,
+    avances y entrega de índice comentado.'
+  type: official_process
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: milestones
+  blocking: false
+- id: THS-09
+  claim: Antes de finalizar el cuatrimestre debe presentarse el manuscrito listo para ser evaluado por el jurado.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: THS-10
+  claim: El reglamento exige redactar la tesis en LaTeX usando la plantilla publicada por la carrera.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: format
+  blocking: false
+- id: THS-11
+  claim: Cada integrante del jurado dispone de 15 días para evaluar la tesis.
+  type: official_timing
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: timing
+  blocking: false
+- id: THS-12
+  claim: La defensa consiste en una exposición oral de hasta 40 minutos seguida de preguntas del jurado y del público.
+  type: official_process
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: process
+  blocking: false
+- id: THS-13
+  claim: El jurado se compone de el/la profesor/a de la materia, un/a experto/a aprobado/a y el/la director/a o co-director/a.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: composition
+  blocking: false
+- id: THS-14
+  claim: Para realizar la defensa deben participar al menos dos de los tres integrantes del jurado.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: THS-15
+  claim: Si el/la director/a no es docente o investigador/a con lugar de trabajo en FCEN, la tesis debe contar con un/a co-director/a
+    de la Facultad.
+  type: official_requirement
+  stage: tesis
+  source: THESIS_REG_UPLOAD
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: eligibility
+  blocking: true
+- id: INC-01
+  claim: El puntaje o inclusión de materias optativas con origen en FCEN se inicia en TAD buscando 'Mesa de Entrada de la
+    Facultad de Ciencias Exactas y Naturales'.
+  type: official_process
+  stage: regularizacion
+  source: FCEN_ADMIN
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: action
+  blocking: false
+- id: INC-02
+  claim: En el motivo del trámite se deben identificar el tipo de trámite, las materias y las carreras de origen y destino.
+  type: official_process
+  stage: regularizacion
+  source: FCEN_ADMIN
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: documentation
+  blocking: false
+- id: INC-03
+  claim: Para puntaje/inclusión de materias con origen en FCEN se deben adjuntar los programas de las materias.
+  type: official_process
+  stage: regularizacion
+  source: FCEN_ADMIN
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: documentation
+  blocking: false
+- id: INC-04
+  claim: Equivalencias, puntajes, inclusiones y trámites similares que correspondan deben estar concluidos con resolución
+    numerada antes de iniciar el diploma.
+  type: official_requirement
+  stage: regularizacion
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: INC-05
+  claim: Como expectativa práctica, conviene presupuestar alrededor de 3 meses para el trámite de inclusión/regularización,
+    sin considerarlo un plazo garantizado.
+  type: community_expectation
+  stage: regularizacion
+  source: COLLEAGUE_GUIDE
+  verified_at: '2026-08-11'
+  volatility: high
+  resolver_role: timing
+  blocking: false
+- id: DIP-01
+  claim: No se debe iniciar el diploma antes de haber aprobado la totalidad de materias del plan, incluida la tesis cuando
+    corresponda.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: DIP-02
+  claim: No se debe iniciar el diploma mientras existan equivalencias, puntajes, inclusiones u otros trámites pertinentes
+    sin resolución numerada.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: low
+  resolver_role: gate
+  blocking: true
+- id: DIP-03
+  claim: Los datos personales del trámite deben coincidir exactamente con los del DNI.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: validation
+  blocking: true
+- id: DIP-04
+  claim: Se debe adjuntar copia del DNI frente y dorso, en color y en PDF.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: documentation
+  blocking: true
+- id: DIP-05
+  claim: Es obligatorio adjuntar el título secundario con legalización UBA; no alcanza con un número provisorio de trámite
+    de legalización.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: gate
+  blocking: true
+- id: DIP-06
+  claim: Se debe completar y adjuntar el formulario oficial de Solicitud de Diploma Universitario de Grado (RC14 vigente).
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: documentation
+  blocking: true
+- id: DIP-07
+  claim: Se debe adjuntar el comprobante emitido por el Portal de Pagos UBA, no la constancia de transferencia.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: documentation
+  blocking: true
+- id: DIP-08
+  claim: Cada PDF debe respetar el límite publicado de 5 MB y ser completo, legible, en color y sin elementos ajenos al documento.
+  type: official_requirement
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: validation
+  blocking: true
+- id: DIP-09
+  claim: No conviene duplicar el trámite de diploma; ante rechazo corresponde revisar el informe y reiniciar según la indicación
+    oficial.
+  type: official_process
+  stage: diploma
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: safety
+  blocking: false
+- id: DIP-10
+  claim: Como expectativa práctica del proceso completo de diploma, conviene presupuestar aproximadamente 8 meses; es orientativo
+    y no una garantía.
+  type: community_expectation
+  stage: diploma
+  source: COLLEAGUE_GUIDE
+  verified_at: '2026-08-11'
+  volatility: high
+  resolver_role: timing
+  blocking: false
+- id: TRK-01
+  claim: Una vez iniciado el diploma, el seguimiento del expediente y de pedidos de documentación se realiza por TAD.
+  type: official_process
+  stage: seguimiento
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: action
+  blocking: false
+- id: TRK-02
+  claim: En TAD, el estado 'TRAMITACIÓN' indica que la documentación inicial fue aceptada.
+  type: official_process
+  stage: seguimiento
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: decoder
+  blocking: false
+- id: TRK-03
+  claim: En TAD, 'SUBSANACIÓN' indica que hay documentación o información que corregir y debe revisarse 'Expedientes → Mis
+    tareas'.
+  type: official_process
+  stage: seguimiento
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: decoder
+  blocking: true
+- id: TRK-04
+  claim: La página de FCEN informa que un expediente en SUBSANACIÓN permanece en ese estado durante 5 días antes de pasar
+    a Guarda Temporal.
+  type: official_timing
+  stage: seguimiento
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: high
+  resolver_role: urgent_timing
+  blocking: true
+- id: TRK-05
+  claim: En TAD, 'GUARDA TEMPORAL' implica rechazo del trámite; se debe leer el informe del expediente y volver a iniciarlo
+    cumpliendo los requisitos.
+  type: official_process
+  stage: seguimiento
+  source: FCEN_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: decoder
+  blocking: true
+- id: TRK-06
+  claim: SIET permite ingresar con CUIG o, si no se conoce, mediante tipo y número de documento y fecha de nacimiento.
+  type: official_process
+  stage: seguimiento
+  source: SIET
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: action
+  blocking: false
+- id: JUR-01
+  claim: Para inscribirse a una jura, el diploma debe figurar en la lista de diplomas en condiciones de ser entregados.
+  type: official_requirement
+  stage: jura
+  source: FCEN_JURAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: gate
+  blocking: true
+- id: JUR-02
+  claim: FCEN ofrece modalidades de jura pública y privada; fechas, cupos y condiciones específicas deben consultarse en la
+    página vigente.
+  type: official_process
+  stage: jura
+  source: FCEN_JURAS
+  verified_at: '2026-08-11'
+  volatility: high
+  resolver_role: action
+  blocking: false
+- id: POST-01
+  claim: UBA permite solicitar un certificado de título en trámite cuando se cumplen las condiciones de avance definidas por
+    la Dirección General de Títulos y Planes.
+  type: official_process
+  stage: post_egreso
+  source: UBA_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: option
+  blocking: false
+- id: POST-02
+  claim: Para solicitar el certificado de título en trámite, el expediente debe haber llegado a la Dirección General de Títulos
+    y Planes, haber pasado sus controles y la persona debe haber confirmado sus datos en SIET.
+  type: official_requirement
+  stage: post_egreso
+  source: UBA_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: gate
+  blocking: true
+- id: POST-03
+  claim: Una vez expedido el diploma, UBA permite solicitar un certificado de egresado/a.
+  type: official_process
+  stage: post_egreso
+  source: UBA_DIPLOMAS
+  verified_at: '2026-08-11'
+  volatility: medium
+  resolver_role: option
+  blocking: false
