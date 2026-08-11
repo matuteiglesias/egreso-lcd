@@ -1,2 +1,20 @@
-import type { Metadata } from "next"; import Link from "next/link"; import { BlockingNotice } from "@/components/evidence";
-export const metadata:Metadata={title:"Orientador"}; export default function Page(){return <div className="container page"><p className="eyebrow">Orientador de etapa</p><h1>¿En qué parte del recorrido estás?</h1><p className="lead">El orientador completo se incorpora en Task 02. Mientras tanto, podés entrar por la etapa que mejor describa tu situación.</p><div className="grid"><Link className="card" href="/etapas/tutor-y-pei"><h3>Tutor/a o PEI</h3></Link><Link className="card" href="/etapas/tesis"><h3>Preparando la tesis</h3></Link><Link className="card" href="/etapas/diploma"><h3>Trámite de diploma</h3></Link></div><BlockingNotice claimId="DIP-01"/><Link className="source" href="/">← Empezar de nuevo</Link></div>}
+import type { Metadata } from "next";
+import { ResolverClient } from "@/components/resolver-client";
+import { loadJourney, loadRegistry } from "@/lib/knowledge";
+
+export const metadata: Metadata = {
+  title: "Orientador",
+  description:
+    "Ubicá tu estado en el recorrido de egreso y encontrá el próximo paso.",
+};
+
+export default function Page() {
+  const journey = loadJourney();
+  const registry = loadRegistry();
+
+  return (
+    <div className="container page page-wide">
+      <ResolverClient journey={journey} registry={registry} />
+    </div>
+  );
+}
