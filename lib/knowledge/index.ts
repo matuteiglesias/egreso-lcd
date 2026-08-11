@@ -3,35 +3,46 @@ import path from "node:path";
 import { parse } from "yaml";
 import {
   journeySchema,
+  navigationOverlaySchema,
   registrySchema,
   type Claim,
   type Registry,
   type Journey,
+  type NavigationOverlay,
 } from "./schema";
 
 const KNOWLEDGE = path.join(process.cwd(), "knowledge");
+const REGISTRY_FILE = path.join(
+  KNOWLEDGE,
+  "egreso-lcd-content-evidence-registry-v1.0.yaml",
+);
+const JOURNEY_FILE = path.join(
+  KNOWLEDGE,
+  "egreso-lcd-state-journey-graph-v1.0.yaml",
+);
+const NAVIGATION_OVERLAY_FILE = path.join(
+  KNOWLEDGE,
+  "egreso-lcd-navigation-targets-v1.1.yaml",
+);
 
-export function loadRegistry(
-  file = path.join(
-    KNOWLEDGE,
-    "egreso-lcd-content-evidence-registry-v1.0.yaml",
-  ),
-): Registry {
+export function loadRegistry(file = REGISTRY_FILE): Registry {
   return registrySchema.parse(parse(readFileSync(file, "utf8")));
 }
 
-export function loadJourney(
-  file = path.join(
-    KNOWLEDGE,
-    "egreso-lcd-state-journey-graph-v1.0.yaml",
-  ),
-): Journey {
+export function loadJourney(file = JOURNEY_FILE): Journey {
   return journeySchema.parse(parse(readFileSync(file, "utf8")));
+}
+
+export function loadNavigationOverlay(
+  file = NAVIGATION_OVERLAY_FILE,
+): NavigationOverlay {
+  return navigationOverlaySchema.parse(parse(readFileSync(file, "utf8")));
 }
 
 export function validateKnowledge(
   registry = loadRegistry(),
   journey = loadJourney(),
+  navigation = loadNavigationOverlay(),
 ) {
   const errors: string[] = [];
   const ids = new Set<string>();
@@ -41,6 +52,18 @@ export function validateKnowledge(
     ids.add(claim.id);
     if (!registry.sources[claim.source]) {
       errors.push(`Fuente inexistente ${claim.source} en ${claim.id}`);
+    }
+  }
+
+  if (navigation.base_registry_version !== registry.version) {
+    errors.push(
+      `Overlay de navegación ${navigation.version} declara registry ${navigation.base_registry_version}, pero se cargó ${registry.version}`,
+    );
+  }
+
+  for (const id of Object.keys(registry.navigation_targets)) {
+    if (!navigation.navigation_targets[id]) {
+      errors.push(`Destino de navegación ${id} falta en overlay ${navigation.version}`);
     }
   }
 
@@ -107,7 +130,7 @@ export function validateKnowledge(
     );
   }
 
-  return { registry, journey };
+  return { registry, journey, navigation };
 }
 
 export function getClaim(
@@ -147,7 +170,7 @@ export function getSource(id: string) {
 }
 
 export function getNavigationTarget(id: string) {
-  const target = loadRegistry().navigation_targets[id];
+  const target = loadNavigationOverlay().navigation_targets[id];
   if (!target) throw new Error(`Destino de navegación desconocido: ${id}`);
   return target;
 }
