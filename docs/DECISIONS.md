@@ -59,3 +59,11 @@ Status: accepted.
 
 Existing reference screenshots contain operational examples and potentially personal
 information. They are not production assets until explicitly sanitized and reviewed.
+
+## ADR-009 — Baseline de Task 01
+
+**Estado:** Aceptada — 2026-08-11
+
+Se evaluó el upstream `rubixvi/rubix-documents` en un directorio temporal con Node 24.15.0 y pnpm. El repositorio publica una licencia MIT clara y su arquitectura de App Router/MDX es razonable, pero su build limpio falló al resolver los archivos de Google Fonts mediante Turbopack. Según la regla estricta de intake, se descartó sin intentar repararlo y se adoptó un baseline mínimo equivalente a `create-next-app`, con Next.js App Router, TypeScript, Tailwind CSS y ESLint.
+
+El proyecto fija Node 24.x y pnpm, evita fuentes remotas para que la build sea reproducible y ejecuta la validación del conocimiento como `prebuild`.
