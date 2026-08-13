@@ -1,0 +1,195 @@
+.trigger {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 30;
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  background: var(--blue);
+  color: white;
+  padding: 0.72rem 1rem;
+  font: inherit;
+  font-weight: 780;
+  box-shadow: 0 8px 24px #17324a33;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  background: var(--blue-dark);
+}
+
+.trigger:focus-visible,
+.close:focus-visible,
+.field textarea:focus-visible,
+.field input:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+}
+
+.dialog {
+  width: min(620px, calc(100% - 2rem));
+  max-height: min(760px, calc(100dvh - 2rem));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+  color: var(--ink);
+  box-shadow: 0 24px 70px #102f4966;
+  overflow: auto;
+}
+
+.dialog::backdrop {
+  background: rgb(16 47 73 / 55%);
+  backdrop-filter: blur(2px);
+}
+
+.panel {
+  padding: 1.5rem;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.heading h2 {
+  margin: 0.2rem 0 0;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--blue);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.description {
+  margin: 1rem 0 1.25rem;
+  color: var(--muted);
+}
+
+.field {
+  display: grid;
+  gap: 0.38rem;
+  margin-top: 1rem;
+  color: var(--ink);
+  font-weight: 760;
+}
+
+.field em {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.field textarea,
+.field input {
+  width: 100%;
+  border: 1px solid #bfcdd4;
+  border-radius: 10px;
+  background: white;
+  color: var(--ink);
+  padding: 0.78rem 0.85rem;
+  font: inherit;
+  font-weight: 400;
+}
+
+.field textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.field small {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.actions :global(.button),
+.success :global(.button) {
+  margin-top: 0;
+}
+
+.actions button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.error {
+  margin: 1rem 0 0;
+  border-left: 5px solid var(--orange);
+  border-radius: 8px;
+  background: var(--orange-soft);
+  padding: 0.75rem 0.9rem;
+  color: #71360f;
+}
+
+.success {
+  margin-top: 1.2rem;
+  border: 1px solid #c5dfb6;
+  border-radius: 12px;
+  background: var(--green-soft);
+  padding: 1rem;
+}
+
+.success p {
+  margin: 0.35rem 0 1rem;
+}
+
+.honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 640px) {
+  .trigger {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.68rem 0.9rem;
+  }
+
+  .dialog {
+    width: calc(100% - 1rem);
+    max-height: calc(100dvh - 1rem);
+    border-radius: 14px;
+  }
+
+  .panel {
+    padding: 1rem;
+  }
+
+  .actions {
+    display: grid;
+  }
+
+  .actions :global(.button) {
+    width: 100%;
+  }
+}
