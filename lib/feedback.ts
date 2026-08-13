@@ -4,7 +4,6 @@ export const FEEDBACK_COMMENT_MIN = 5;
 export const FEEDBACK_COMMENT_MAX = 2000;
 export const FEEDBACK_EMAIL_MAX = 254;
 export const FEEDBACK_PAGE_MAX = 500;
-export const FEEDBACK_MIN_FILL_MS = 1500;
 
 const optionalEmail = z
   .string()
@@ -33,7 +32,6 @@ export const feedbackPayloadSchema = z.object({
     .max(FEEDBACK_PAGE_MAX, "La referencia de página es demasiado larga."),
   email: optionalEmail,
   website: z.string().max(200).optional().default(""),
-  startedAt: z.number().int().positive(),
 });
 
 export type FeedbackPayload = z.infer<typeof feedbackPayloadSchema>;
@@ -42,10 +40,7 @@ export type FeedbackValidationResult =
   | { ok: true; data: FeedbackPayload }
   | { ok: false; message: string; spam?: boolean };
 
-export function validateFeedbackPayload(
-  input: unknown,
-  now = Date.now(),
-): FeedbackValidationResult {
+export function validateFeedbackPayload(input: unknown): FeedbackValidationResult {
   const parsed = feedbackPayloadSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -55,10 +50,6 @@ export function validateFeedbackPayload(
 
   if (parsed.data.website) {
     return { ok: false, message: "Solicitud inválida.", spam: true };
-  }
-
-  if (now - parsed.data.startedAt < FEEDBACK_MIN_FILL_MS) {
-    return { ok: false, message: "Esperá un instante y volvé a intentar.", spam: true };
   }
 
   return { ok: true, data: parsed.data };
