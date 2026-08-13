@@ -32,7 +32,7 @@ export const feedbackPayloadSchema = z.object({
     .min(1, "No pudimos identificar la página.")
     .max(FEEDBACK_PAGE_MAX, "La referencia de página es demasiado larga."),
   email: optionalEmail,
-  website: z.string().max(0, "Solicitud inválida.").optional().default(""),
+  website: z.string().max(200).optional().default(""),
   startedAt: z.number().int().positive(),
 });
 
